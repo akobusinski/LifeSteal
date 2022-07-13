@@ -1,5 +1,5 @@
 # LifeSteal plugin
-## Simple LifeSteal plugin for Bukkit
+## Simple, lightweight LifeSteal plugin for Bukkit
 ## Features:
 - Stealing hearts from other people
 - Banning people when they get to 0 hearts
