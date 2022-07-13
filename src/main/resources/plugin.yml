@@ -1,0 +1,21 @@
+name: LifeSteal
+version: '${project.version}'
+main: wtf.gacek.lifesteal.Lifesteal
+api-version: 1.19
+authors: [ GacekKosmatek ]
+description: My LifeStealSMP plugin
+commands:
+  lifesteal:
+    usage: '/lifesteal help'
+    description: 'Main lifesteal command'
+    permission: lifesteal.command
+    aliases: [
+      'life',
+      'ls'
+    ]
+
+permissions:
+  lifesteal.command:
+    default: true
+  lifesteal.admin:
+    default: op
