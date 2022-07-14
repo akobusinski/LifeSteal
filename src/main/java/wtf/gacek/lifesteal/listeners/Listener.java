@@ -7,6 +7,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import wtf.gacek.lifesteal.Lifesteal;
 import wtf.gacek.lifesteal.Utils;
@@ -30,7 +31,7 @@ public class Listener implements org.bukkit.event.Listener {
         }
     }
 
-    @EventHandler()
+    @EventHandler
     public void onRightClick(PlayerInteractEvent e) {
         Player player = e.getPlayer();
         if (!(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK)) {
@@ -46,5 +47,11 @@ public class Listener implements org.bukkit.event.Listener {
         player.getInventory().getItemInMainHand().setAmount(mainHandItem.getAmount() - 1);
         LifestealManager lifeManager = Lifesteal.getLifeManager();
         lifeManager.setHealth(player, lifeManager.getHealth(player) + 2);
+    }
+
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent e) {
+        Player player = e.getPlayer();
+        player.setHealth(player.getHealth());
     }
 }

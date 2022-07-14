@@ -17,7 +17,7 @@ public class LifestealCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 0) {
-            Utils.colorize(sender, "&cLifeSteal Plugin 1.1");
+            Utils.colorize(sender, "&cLifeSteal Plugin 1.2");
             Utils.colorize(sender, "&cCreated by GacekKosmatek");
             Utils.colorize(sender, "");
             if (sender.hasPermission("lifesteal.admin")) {
