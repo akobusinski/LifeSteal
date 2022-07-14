@@ -26,7 +26,7 @@ public class LifestealCompleter implements TabCompleter {
         }
         if (args.length == 2 && sender.hasPermission("lifesteal.admin")) {
             for (Player player: Bukkit.getOnlinePlayers()) {
-                if (!player.getMetadata("vanished").get(0).asBoolean()) {
+                if (!(player.hasMetadata("vanished") && player.getMetadata("vanished").get(0).asBoolean())) {
                     completion.add(player.getName());
                 }
             }
