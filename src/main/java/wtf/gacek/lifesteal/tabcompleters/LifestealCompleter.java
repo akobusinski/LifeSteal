@@ -24,15 +24,22 @@ public class LifestealCompleter implements TabCompleter {
             }
             completion.add("withdraw");
         }
-        if (args.length == 2 && sender.hasPermission("lifesteal.admin")) {
-            for (Player player: Bukkit.getOnlinePlayers()) {
-                if (!(player.hasMetadata("vanished") && player.getMetadata("vanished").get(0).asBoolean())) {
-                    completion.add(player.getName());
+        if (args.length == 2) {
+            if ((Objects.equals(args[0], "gethearts") || Objects.equals(args[0], "sethearts")) && sender.hasPermission("lifesteal.admin")) {
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    if (!(player.hasMetadata("vanished") && player.getMetadata("vanished").get(0).asBoolean())) {
+                        completion.add(player.getName());
+                    }
+                }
+            }
+            if (Objects.equals(args[0], "withdraw")) {
+                for (int n=0; n<=9; n++) {
+                    completion.add(String.valueOf(n));
                 }
             }
         }
         if (args.length == 3 && sender.hasPermission("lifesteal.admin") && Objects.equals(args[0], "sethearts")) {
-            for(int n=0; n<=9; n++){
+            for (int n=0; n<=9; n++) {
                 completion.add(String.valueOf(n));
             }
         }

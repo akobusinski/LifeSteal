@@ -26,7 +26,7 @@ public class LifestealCommand implements CommandExecutor {
                 Utils.colorize(sender, " - &c/lifesteal gethearts <player> - Get how many hearts a player has");
             }
             Utils.colorize(sender, "&cCommands: ");
-            Utils.colorize(sender, " - &c/lifesteal withdraw - Withdraw a amount of hearts");
+            Utils.colorize(sender, " - &c/lifesteal withdraw [amount] - Withdraw a amount of hearts, defaults to 1");
             return true;
         }
         Player target;
@@ -65,6 +65,15 @@ public class LifestealCommand implements CommandExecutor {
                     Utils.colorize(sender, "&cYou have to be a player to use this command!");
                     break;
                 }
+                int amount = 1;
+                if (args.length >= 2) {
+                    try {
+                        amount = Integer.parseInt(args[1]);
+                    } catch (NumberFormatException e) {
+                        Utils.colorize(sender, "&cThat does not look like a number!");
+                        break;
+                    }
+                }
                 Player p = (Player) sender;
                 ItemStack itemStack = new ItemStack(Material.NETHER_STAR);
                 ItemMeta itemMeta = Bukkit.getItemFactory().getItemMeta(itemStack.getType());
@@ -72,8 +81,13 @@ public class LifestealCommand implements CommandExecutor {
                 itemMeta.setDisplayName(Utils.colorize("&cHeart"));
                 itemMeta.setLore(List.of(Utils.colorize("&cRight click to redeem a single heart")));
                 itemStack.setItemMeta(itemMeta);
+                if ((Lifesteal.getLifeManager().getHealth(p) - (amount * 2)) <= 0) {
+                    Utils.colorize(sender, "&cYou can't withdraw that many hearts!");
+                    break;
+                }
+                itemStack.setAmount(amount);
                 p.getInventory().addItem(itemStack);
-                Lifesteal.getLifeManager().setHealth((Player) sender, Lifesteal.getLifeManager().getHealth((Player) sender) - 2);
+                Lifesteal.getLifeManager().setHealth((Player) sender, Lifesteal.getLifeManager().getHealth((Player) sender) - (amount * 2));
                 Utils.colorize(sender, "&cYou withdrew 1 heart!");
                 break;
             default:
