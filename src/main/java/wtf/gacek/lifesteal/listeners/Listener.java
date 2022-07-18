@@ -19,7 +19,7 @@ import java.util.Objects;
 
 public class Listener implements org.bukkit.event.Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onAttack(PlayerDeathEvent e) {
+    public void onDeath(PlayerDeathEvent e) {
         Player killer = e.getEntity().getKiller();
         if (killer == null) {
             return;
