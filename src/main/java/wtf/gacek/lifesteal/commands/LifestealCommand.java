@@ -17,7 +17,7 @@ public class LifestealCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 0) {
-            Utils.colorize(sender, "&cLifeSteal Plugin 1.2");
+            Utils.colorize(sender, "&cLifeSteal Plugin 1.3");
             Utils.colorize(sender, "&cCreated by GacekKosmatek");
             Utils.colorize(sender, "");
             if (sender.hasPermission("lifesteal.admin")) {
@@ -88,7 +88,7 @@ public class LifestealCommand implements CommandExecutor {
                 itemStack.setAmount(amount);
                 p.getInventory().addItem(itemStack);
                 Lifesteal.getLifeManager().setHealth((Player) sender, Lifesteal.getLifeManager().getHealth((Player) sender) - (amount * 2));
-                Utils.colorize(sender, "&cYou withdrew 1 heart!");
+                Utils.colorize(sender, "&cYou withdrew " + amount + " heart!");
                 break;
             default:
                 Utils.colorize(sender, "&cCommand not found.");
