@@ -8,6 +8,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import wtf.gacek.lifesteal.Lifesteal;
 import wtf.gacek.lifesteal.Utils;
@@ -34,6 +35,9 @@ public class Listener implements org.bukkit.event.Listener {
     @EventHandler
     public void onRightClick(PlayerInteractEvent e) {
         Player player = e.getPlayer();
+        if (!e.getHand().equals(EquipmentSlot.HAND)) {
+            return;
+        }
         if (!(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK)) {
             return;
         }
