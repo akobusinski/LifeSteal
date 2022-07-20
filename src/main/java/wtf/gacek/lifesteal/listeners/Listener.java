@@ -14,6 +14,7 @@ import wtf.gacek.lifesteal.Lifesteal;
 import wtf.gacek.lifesteal.Utils;
 import wtf.gacek.lifesteal.managers.LifestealManager;
 
+import java.io.File;
 import java.util.Objects;
 
 

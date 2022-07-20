@@ -2,8 +2,11 @@ package wtf.gacek.lifesteal.commands;
 
 import java.util.*;
 
+import jdk.jshell.execution.Util;
+import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -27,6 +30,7 @@ public class LifestealCommand implements CommandExecutor {
             }
             Utils.colorize(sender, "&cCommands: ");
             Utils.colorize(sender, " - &c/lifesteal withdraw [amount] - Withdraw a amount of hearts, defaults to 1");
+            Utils.colorize(sender, " - &c/lifesteal revive <player> - Revives a player, takes one of your hearts");
             return true;
         }
         Player target;
@@ -36,13 +40,17 @@ public class LifestealCommand implements CommandExecutor {
                     Utils.colorize(sender, "&cCommand not found.");
                     break;
                 }
+                if (!(args.length >= 2)) {
+                    Utils.colorize(sender, "&cNo player provided");
+                    break;
+                }
                 target = Bukkit.getServer().getPlayer(args[1]);
                 if (target == null) {
                     Utils.colorize(sender, "&cCould not find " + args[1] + ", are you sure they are online?");
                     break;
                 }
-                if (args.length != 3) {
-                    Utils.colorize(sender, "&cNice hearts amount");
+                if (!(args.length >= 3)) {
+                    Utils.colorize(sender, "&cNo heart amount provided");
                     break;
                 }
                 Lifesteal.getLifeManager().setHealth(target, Integer.parseInt(args[2]) * 2);
@@ -51,6 +59,10 @@ public class LifestealCommand implements CommandExecutor {
             case "gethearts":
                 if (!sender.hasPermission("lifesteal.admin")) {
                     Utils.colorize(sender, "&cCommand not found.");
+                    break;
+                }
+                if (!(args.length >= 2)) {
+                    Utils.colorize(sender, "&cNo player provided");
                     break;
                 }
                 target = Bukkit.getServer().getPlayer(args[1]);
@@ -74,6 +86,10 @@ public class LifestealCommand implements CommandExecutor {
                         break;
                     }
                 }
+                if (amount <= 0) {
+                    Utils.colorize(sender, "&cInvalid heart amount to withdraw");
+                    break;
+                }
                 Player p = (Player) sender;
                 ItemStack itemStack = new ItemStack(Material.NETHER_STAR);
                 ItemMeta itemMeta = Bukkit.getItemFactory().getItemMeta(itemStack.getType());
@@ -89,6 +105,35 @@ public class LifestealCommand implements CommandExecutor {
                 p.getInventory().addItem(itemStack);
                 Lifesteal.getLifeManager().setHealth((Player) sender, Lifesteal.getLifeManager().getHealth((Player) sender) - (amount * 2));
                 Utils.colorize(sender, "&cYou withdrew " + amount + " heart!");
+                break;
+            case "revive":
+                if (!(args.length >= 2)) {
+                    Utils.colorize(sender, "&cNo player provided");
+                    break;
+                }
+                if ((Lifesteal.getLifeManager().getHealth((Player) sender) - 2) <= 0) {
+                    Utils.colorize(sender, "&cYou don't have enough hearts to revive someone!");
+                    break;
+                }
+                boolean isFound = false;
+                for (OfflinePlayer op : Bukkit.getOfflinePlayers()) {
+                    if (Objects.equals(Objects.requireNonNull(op.getName()).toLowerCase(), args[1].toLowerCase())) {
+                        if (Lifesteal.getLifeManager().isBanned(op.getUniqueId())) {
+                            Bukkit.getServer().getBanList(BanList.Type.NAME).pardon(Objects.requireNonNull(op.getName()));
+                            Lifesteal.getLifeManager().setHealth((Player) sender, Lifesteal.getLifeManager().getHealth((Player) sender) - 2);
+                            Lifesteal.getLifeManager().unban(op.getUniqueId());
+                            Utils.colorize(sender, "&a" + op.getName() + " has been successfully revived!");
+                        } else {
+                            Utils.colorize(sender, "&c" + op.getName() + " is not out of hearts!");
+                        }
+                        isFound = true;
+                        break;
+                    }
+
+                }
+                if (!isFound) {
+                    Utils.colorize(sender, "&cPlayer " + args[1] + " not found");
+                }
                 break;
             default:
                 Utils.colorize(sender, "&cCommand not found.");

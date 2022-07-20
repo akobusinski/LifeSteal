@@ -8,6 +8,7 @@ import wtf.gacek.lifesteal.listeners.Listener;
 import wtf.gacek.lifesteal.managers.LifestealManager;
 import wtf.gacek.lifesteal.tabcompleters.LifestealCompleter;
 
+import java.io.File;
 import java.util.Objects;
 
 public final class Lifesteal extends JavaPlugin {
@@ -16,6 +17,9 @@ public final class Lifesteal extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+        if (!this.getDataFolder().exists()) {
+            this.getDataFolder().mkdir();
+        }
         getServer().getPluginManager().registerEvents(new Listener(), this);
         addCommand("lifesteal", new LifestealCommand());
         addTabCompleter("lifesteal", new LifestealCompleter());

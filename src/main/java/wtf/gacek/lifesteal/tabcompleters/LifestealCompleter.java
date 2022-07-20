@@ -23,6 +23,7 @@ public class LifestealCompleter implements TabCompleter {
                 completion.add("gethearts");
             }
             completion.add("withdraw");
+            completion.add("revive");
         }
         if (args.length == 2) {
             if ((Objects.equals(args[0], "gethearts") || Objects.equals(args[0], "sethearts")) && sender.hasPermission("lifesteal.admin")) {
