@@ -8,7 +8,6 @@ import wtf.gacek.lifesteal.listeners.Listener;
 import wtf.gacek.lifesteal.managers.LifestealManager;
 import wtf.gacek.lifesteal.tabcompleters.LifestealCompleter;
 
-import java.io.File;
 import java.util.Objects;
 
 public final class Lifesteal extends JavaPlugin {

@@ -2,7 +2,6 @@ package wtf.gacek.lifesteal.commands;
 
 import java.util.*;
 
-import jdk.jshell.execution.Util;
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
