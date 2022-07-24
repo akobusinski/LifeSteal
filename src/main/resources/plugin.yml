@@ -3,7 +3,7 @@ version: '${project.version}'
 main: wtf.gacek.lifesteal.Lifesteal
 api-version: 1.19
 authors: [ GacekKosmatek ]
-description: My LifeStealSMP plugin
+description: My LifeSteal plugin
 commands:
   lifesteal:
     usage: '/lifesteal help'
