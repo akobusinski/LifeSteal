@@ -12,14 +12,15 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 import wtf.gacek.lifesteal.Lifesteal;
 import wtf.gacek.lifesteal.Utils;
 
 public class LifestealCommand implements CommandExecutor {
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if (args.length == 0) {
-            Utils.colorize(sender, "&cLifeSteal Plugin 1.3");
+            Utils.colorize(sender, "&cLifeSteal Plugin 1.4");
             Utils.colorize(sender, "&cCreated by GacekKosmatek");
             Utils.colorize(sender, "");
             if (sender.hasPermission("lifesteal.admin")) {

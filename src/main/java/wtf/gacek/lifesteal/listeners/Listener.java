@@ -35,7 +35,7 @@ public class Listener implements org.bukkit.event.Listener {
     @EventHandler
     public void onRightClick(PlayerInteractEvent e) {
         Player player = e.getPlayer();
-        if (!e.getHand().equals(EquipmentSlot.HAND)) {
+        if (!Objects.equals(e.getHand(), EquipmentSlot.HAND)) {
             return;
         }
         if (!(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK)) {
