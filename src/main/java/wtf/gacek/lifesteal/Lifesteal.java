@@ -6,6 +6,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import wtf.gacek.lifesteal.commands.LifestealCommand;
 import wtf.gacek.lifesteal.listeners.Listener;
 import wtf.gacek.lifesteal.managers.LifestealManager;
+import wtf.gacek.lifesteal.recipes.revivetotem;
 import wtf.gacek.lifesteal.tabcompleters.LifestealCompleter;
 
 import java.util.Objects;
@@ -14,6 +15,7 @@ public final class Lifesteal extends JavaPlugin {
     private final LifestealManager lifeManager = new LifestealManager();
     private static Lifesteal instance;
     @Override
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public void onEnable() {
         instance = this;
         if (!this.getDataFolder().exists()) {
@@ -22,6 +24,7 @@ public final class Lifesteal extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new Listener(), this);
         addCommand("lifesteal", new LifestealCommand());
         addTabCompleter("lifesteal", new LifestealCompleter());
+        getServer().addRecipe(revivetotem.getRecipe());
     }
 
     @Override

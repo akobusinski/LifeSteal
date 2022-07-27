@@ -1,6 +1,7 @@
 package wtf.gacek.lifesteal.commands;
 
 import java.util.*;
+import java.util.function.Supplier;
 
 import org.bukkit.BanList;
 import org.bukkit.Bukkit;
@@ -20,7 +21,7 @@ public class LifestealCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if (args.length == 0) {
-            Utils.colorize(sender, "&cLifeSteal Plugin 1.4");
+            Utils.colorize(sender, "&cLifeSteal Plugin " + Lifesteal.getInstance().getDescription().getVersion());
             Utils.colorize(sender, "&cCreated by GacekKosmatek");
             Utils.colorize(sender, "");
             if (sender.hasPermission("lifesteal.admin")) {
@@ -34,6 +35,7 @@ public class LifestealCommand implements CommandExecutor {
             return true;
         }
         Player target;
+        Player p;
         switch (args[0].toLowerCase()) {
             case "sethearts":
                 if (!sender.hasPermission("lifesteal.admin")) {
@@ -90,7 +92,7 @@ public class LifestealCommand implements CommandExecutor {
                     Utils.colorize(sender, "&cInvalid heart amount to withdraw");
                     break;
                 }
-                Player p = (Player) sender;
+                p = (Player) sender;
                 ItemStack itemStack = new ItemStack(Material.NETHER_STAR);
                 ItemMeta itemMeta = Bukkit.getItemFactory().getItemMeta(itemStack.getType());
                 assert itemMeta != null;
@@ -107,12 +109,22 @@ public class LifestealCommand implements CommandExecutor {
                 Utils.colorize(sender, "&cYou withdrew " + amount + " heart!");
                 break;
             case "revive":
-                if (!(args.length >= 2)) {
-                    Utils.colorize(sender, "&cNo player provided");
+                if (!(sender instanceof Player)) {
+                    Utils.colorize(sender, "&cYou have to be a player to use this command");
                     break;
                 }
-                if ((Lifesteal.getLifeManager().getHealth((Player) sender) - 2) <= 0) {
-                    Utils.colorize(sender, "&cYou don't have enough hearts to revive someone!");
+                p = (Player) sender;
+                ItemStack item = p.getInventory().getItemInMainHand();
+                if (item.getItemMeta() == null) {
+                    Utils.colorize(sender, "&cYou are not holding a revive totem!");
+                    break;
+                }
+                if (!item.getItemMeta().getDisplayName().equals(Utils.colorize("&6Totem of Revival"))) {
+                    Utils.colorize(sender, "&cYou are not holding a revive totem!");
+                    break;
+                }
+                if (!(args.length >= 2)) {
+                    Utils.colorize(sender, "&cNo player provided");
                     break;
                 }
                 boolean isFound = false;
@@ -120,16 +132,15 @@ public class LifestealCommand implements CommandExecutor {
                     if (Objects.equals(Objects.requireNonNull(op.getName()).toLowerCase(), args[1].toLowerCase())) {
                         if (Lifesteal.getLifeManager().isBanned(op.getUniqueId())) {
                             Bukkit.getServer().getBanList(BanList.Type.NAME).pardon(Objects.requireNonNull(op.getName()));
-                            Lifesteal.getLifeManager().setHealth((Player) sender, Lifesteal.getLifeManager().getHealth((Player) sender) - 2);
                             Lifesteal.getLifeManager().unban(op.getUniqueId());
+                            p.getInventory().getItemInMainHand().setAmount(item.getAmount() - 1);
                             Utils.colorize(sender, "&a" + op.getName() + " has been successfully revived!");
                         } else {
-                            Utils.colorize(sender, "&c" + op.getName() + " is not out of hearts!");
+                            Utils.colorize(sender, "&c" + op.getName() + " is not banned!");
                         }
                         isFound = true;
                         break;
                     }
-
                 }
                 if (!isFound) {
                     Utils.colorize(sender, "&cPlayer " + args[1] + " not found");

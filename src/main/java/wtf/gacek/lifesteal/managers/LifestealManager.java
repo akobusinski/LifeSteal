@@ -17,6 +17,7 @@ public class LifestealManager {
         return (int) Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getBaseValue();
     }
 
+    @SuppressWarnings("unchecked")
     public void setHealth(Player player, int health) {
         try {
             if (player == null) return;
@@ -26,7 +27,7 @@ public class LifestealManager {
             Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(health);
             if (getHealth(player) <= 0) {
                 Bukkit.getServer().getBanList(BanList.Type.NAME).addBan(player.getName(), Utils.colorize("&cYou are out of hearts!"), null, null);
-                Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(2);
+                Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(10);
                 player.kickPlayer(Utils.colorize("&cYou are out of hearts!"));
                 File f = new File(Lifesteal.getInstance().getDataFolder(), File.separator + "bans");
                 ArrayList<String> banList = new ArrayList<>();
@@ -49,6 +50,7 @@ public class LifestealManager {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public boolean isBanned(UUID uuid) {
         try {
             File f = new File(Lifesteal.getInstance().getDataFolder(), File.separator + "bans");
@@ -67,6 +69,7 @@ public class LifestealManager {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public void unban(UUID uuid) {
         try {
             File f = new File(Lifesteal.getInstance().getDataFolder(), File.separator + "bans");
