@@ -6,9 +6,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import wtf.gacek.lifesteal.Lifesteal;
 import wtf.gacek.lifesteal.Utils;
@@ -58,4 +60,16 @@ public class Listener implements org.bukkit.event.Listener {
         Player player = e.getPlayer();
         player.setHealth(player.getHealth());
     }
+
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent e) {
+        if (e.getClickedInventory() == null) {
+            return;
+        }
+        if (!e.getView().getTitle().equals(Utils.colorize("&6Revive Totem Recipe"))) {
+            return;
+        }
+        e.setCancelled(true);
+    }
 }
+

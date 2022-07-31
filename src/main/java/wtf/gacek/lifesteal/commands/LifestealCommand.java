@@ -11,11 +11,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import wtf.gacek.lifesteal.Lifesteal;
 import wtf.gacek.lifesteal.Utils;
+import wtf.gacek.lifesteal.recipes.revivetotem;
 
 public class LifestealCommand implements CommandExecutor {
     @Override
@@ -32,6 +34,7 @@ public class LifestealCommand implements CommandExecutor {
             Utils.colorize(sender, "&cCommands: ");
             Utils.colorize(sender, " - &c/lifesteal withdraw [amount] - Withdraw a amount of hearts, defaults to 1");
             Utils.colorize(sender, " - &c/lifesteal revive <player> - Revives a player, takes one of your hearts");
+            Utils.colorize(sender, " - &c/lifesteal recipe - Shows the recipe for the revive totem");
             return true;
         }
         Player target;
@@ -115,12 +118,9 @@ public class LifestealCommand implements CommandExecutor {
                 }
                 p = (Player) sender;
                 ItemStack item = p.getInventory().getItemInMainHand();
-                if (item.getItemMeta() == null) {
+                if (item.getItemMeta() == null || !item.getItemMeta().getDisplayName().equals(Utils.colorize("&6Totem of Revival"))) {
                     Utils.colorize(sender, "&cYou are not holding a revive totem!");
-                    break;
-                }
-                if (!item.getItemMeta().getDisplayName().equals(Utils.colorize("&6Totem of Revival"))) {
-                    Utils.colorize(sender, "&cYou are not holding a revive totem!");
+                    Utils.colorize(sender, "&cUse &7/lifesteal recipe&c to see the recipe!");
                     break;
                 }
                 if (!(args.length >= 2)) {
@@ -145,6 +145,15 @@ public class LifestealCommand implements CommandExecutor {
                 if (!isFound) {
                     Utils.colorize(sender, "&cPlayer " + args[1] + " not found");
                 }
+                break;
+            case "recipe":
+                if (!(sender instanceof Player)) {
+                    Utils.colorize(sender, "&cYou have to be a player to use this command");
+                    break;
+                }
+                p = (Player) sender;
+                Inventory inventory = Utils.craftingInventory("&6Revive Totem Recipe", revivetotem.getRecipeIngredients(), revivetotem.getItem());
+                p.openInventory(inventory);
                 break;
             default:
                 Utils.colorize(sender, "&cCommand not found.");

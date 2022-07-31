@@ -15,20 +15,7 @@ import java.util.ArrayList;
 
 public class revivetotem {
     public static ShapedRecipe getRecipe() {
-        ItemStack totemStack = new ItemStack(Material.TOTEM_OF_UNDYING, 1);
-        ItemMeta totemMeta = Bukkit.getItemFactory().getItemMeta(totemStack.getType());
-        totemStack.addUnsafeEnchantment(Enchantment.DURABILITY, 10);
-        assert totemMeta != null;
-        totemMeta.setDisplayName(Utils.colorize("&6Totem of Revival"));
-        totemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        ArrayList<String> totemLore = new ArrayList<>();
-        totemLore.add(Utils.colorize("&6Have this item in your main hand and use"));
-        totemLore.add(Utils.colorize("&6the &r&7/lifesteal revive &r&6command to revive someone"));
-        totemLore.add(Utils.colorize("&6WARNING: THIS ITEM CAN BE USED"));
-        totemLore.add(Utils.colorize("&6LIKE A NORMAL TOTEM OF UNDYING"));
-        totemMeta.setLore(totemLore);
-        totemStack.setItemMeta(totemMeta);
-        ShapedRecipe totemRecipe = new ShapedRecipe(new NamespacedKey(Lifesteal.getInstance(), "revive_totem"), totemStack);
+        ShapedRecipe totemRecipe = new ShapedRecipe(new NamespacedKey(Lifesteal.getInstance(), "revive_totem"), getItem());
 
         //    G  |  E  |  G
         //  -----|-----|-----
@@ -48,5 +35,36 @@ public class revivetotem {
         totemRecipe.setIngredient('E', Material.EMERALD_BLOCK);
 
         return totemRecipe;
+    }
+
+    public static ItemStack getItem() {
+        ItemStack totemStack = new ItemStack(Material.TOTEM_OF_UNDYING, 1);
+        ItemMeta totemMeta = Bukkit.getItemFactory().getItemMeta(totemStack.getType());
+        totemStack.addUnsafeEnchantment(Enchantment.DURABILITY, 10);
+        assert totemMeta != null;
+        totemMeta.setDisplayName(Utils.colorize("&6Totem of Revival"));
+        totemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        ArrayList<String> totemLore = new ArrayList<>();
+        totemLore.add(Utils.colorize("&6Have this item in your main hand and use"));
+        totemLore.add(Utils.colorize("&6the &r&7/lifesteal revive &r&6command to revive someone"));
+        totemLore.add(Utils.colorize("&6WARNING: THIS ITEM CAN BE USED"));
+        totemLore.add(Utils.colorize("&6LIKE A NORMAL TOTEM OF UNDYING"));
+        totemMeta.setLore(totemLore);
+        totemStack.setItemMeta(totemMeta);
+        return totemStack;
+    }
+
+    public static ArrayList<ItemStack> getRecipeIngredients() {
+        ArrayList<ItemStack> list = new ArrayList<>();
+        list.add(new ItemStack(Material.GOLD_BLOCK));
+        list.add(new ItemStack(Material.EMERALD_BLOCK));
+        list.add(new ItemStack(Material.GOLD_BLOCK));
+        list.add(new ItemStack(Material.DIAMOND_BLOCK));
+        list.add(new ItemStack(Material.NETHER_STAR));
+        list.add(new ItemStack(Material.DIAMOND_BLOCK));
+        list.add(new ItemStack(Material.GOLD_BLOCK));
+        list.add(new ItemStack(Material.EMERALD_BLOCK));
+        list.add(new ItemStack(Material.GOLD_BLOCK));
+        return list;
     }
 }

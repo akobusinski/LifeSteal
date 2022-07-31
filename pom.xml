@@ -6,7 +6,7 @@
 
     <groupId>wtf.gacek.lifesteal</groupId>
     <artifactId>lifesteal</artifactId>
-    <version>1.5</version>
+    <version>1.6</version>
     <packaging>jar</packaging>
 
     <name>LifeSteal</name>

@@ -5,6 +5,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.Objects;
 
 public class LifestealCompleter implements TabCompleter {
     @Override
-    public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         List<String> completion = new ArrayList<>();
         if (!(sender instanceof Player)) {
             return completion;
@@ -24,6 +25,7 @@ public class LifestealCompleter implements TabCompleter {
             }
             completion.add("withdraw");
             completion.add("revive");
+            completion.add("recipe");
         }
         if (args.length == 2) {
             if ((Objects.equals(args[0], "gethearts") || Objects.equals(args[0], "sethearts")) && sender.hasPermission("lifesteal.admin")) {
