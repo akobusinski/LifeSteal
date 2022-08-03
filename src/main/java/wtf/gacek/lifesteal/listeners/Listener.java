@@ -9,9 +9,11 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import wtf.gacek.lifesteal.Lifesteal;
 import wtf.gacek.lifesteal.Utils;
 import wtf.gacek.lifesteal.managers.LifestealManager;
@@ -71,5 +73,40 @@ public class Listener implements org.bukkit.event.Listener {
         }
         e.setCancelled(true);
     }
-}
+    @EventHandler
+    public static void onCraft(CraftItemEvent e) {
+        for (ItemStack is: e.getInventory().getMatrix()) {
+            Material itemType = is.getType();
+            ItemMeta itemMeta = is.getItemMeta();
+            if (itemMeta == null) {
+                continue;
+            }
+            if (itemType != Material.NETHER_STAR) {
+                continue;
+            }
+            String displayName = is.getItemMeta().getDisplayName();
+            if (!(displayName.equals(Utils.colorize("&cHeart")) || displayName.equals(Utils.colorize("&6Totem of Revival")))) {
+                continue;
+            }
+            e.setCancelled(true);
+            return;
+        }
+    }
 
+    @EventHandler
+    public static void onAnvilRename(PrepareAnvilEvent e) {
+        for (ItemStack is: e.getInventory().getContents()) {
+            if (is == null) {
+                continue;
+            }
+            if (is.getItemMeta() == null) {
+                continue;
+            }
+            String displayName = is.getItemMeta().getDisplayName();
+            if (!(displayName.equals(Utils.colorize("&cHeart")) || displayName.equals(Utils.colorize("&6Totem of Revival")))) {
+                continue;
+            }
+            e.setResult(null);
+        }
+    }
+}
