@@ -76,6 +76,9 @@ public class Listener implements org.bukkit.event.Listener {
     @EventHandler
     public static void onCraft(CraftItemEvent e) {
         for (ItemStack is: e.getInventory().getMatrix()) {
+            if (is == null) {
+                continue;
+            }
             Material itemType = is.getType();
             ItemMeta itemMeta = is.getItemMeta();
             if (itemMeta == null) {
